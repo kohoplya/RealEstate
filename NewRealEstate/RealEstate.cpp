@@ -28,7 +28,7 @@ void RealEstate::printMenu()
 {
 	Menu menu;
 	menu.SetWidth(24);
-	menu.SetHeight(5);
+	menu.SetHeight(4);
 
 	menu.AddElement("Create an account").AddElement("Sign in").AddElement("Exit");
 
@@ -455,12 +455,18 @@ void RealEstate::printAllProperties(User* user) {
 		if (!user || user->getLogin() == properties[i].getUser()->getLogin())
 			printedCount++;
 
-	clear();
-	Window* win = createWindow(44, (printedCount * 9));
+	Window* win = createWindow(44, 5);
 	Input inp(win->GetWidth());
 
-	int y = win->GetY() + 1;
+	if (printedCount == 0) {
+		inp.customInput(*win, "No properties published: ");
+		return;
+	}
 
+	clear();
+	win = createWindow(44, (printedCount * 9));
+	
+	int y = win->GetY() + 1;
 	printedCount = 0;
 	for (int i = 0; i < properties.size(); i++) {
 		int _y = y + (printedCount * 8);
